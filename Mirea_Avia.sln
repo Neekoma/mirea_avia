@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mirea_Avia", "Mirea_Avia\Mirea_Avia.csproj", "{6240DBE7-9F57-4392-81C3-99A0D4217D61}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6240DBE7-9F57-4392-81C3-99A0D4217D61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6240DBE7-9F57-4392-81C3-99A0D4217D61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6240DBE7-9F57-4392-81C3-99A0D4217D61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6240DBE7-9F57-4392-81C3-99A0D4217D61}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EC426225-23D8-4722-89F3-84A6E5C7F25D}
+	EndGlobalSection
+EndGlobal
