@@ -3,5 +3,15 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">РТУ МЕМРЭА</h1>
+    <div class="search-field">
+        <form method="post" asp-action="SearchTickets">
+            <header>Найдётся всё!</header>
+            <input type="text" placeholder="Откуда летим?" maxlength="30" name="origin" id="origin" />
+            <input type="text" placeholder="Куда летим?" maxlength="30" name="destination" />
+            <input type="datetime" placeholder="Дата отправления" name="departureTime" />
+            <input type="submit" value="Искать" />
+        </form>
+
+    </div>
+
 </div>

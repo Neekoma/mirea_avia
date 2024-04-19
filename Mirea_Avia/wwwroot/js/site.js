@@ -1,4 +1,45 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿
+var availableCities = []
 
-// Write your JavaScript code.
+function GetCities() {
+    var url = "http://api.travelpayouts.com/data/ru/cities.json";
+
+    fetch(url, {
+        mode: "no-cors",
+        method: "GET",
+    }).then((response) => {
+        console.log(response.ok);
+        console.log(response.json());
+    });
+}
+
+GetCities();
+
+//function AutocompleteCity() {
+//    var baseUrl = "https://autocomplete.travelpayouts.com/places2";
+//    var query = `?locale=ru&types[]=city&term=`;
+
+//    availableCities = ""
+
+//    fetch(baseUrl + query)
+//        .then(function (response) {
+//            if (response.ok) {
+//                return response.json();
+//            }
+//        })
+//        .then(function (data) {
+//            console.log(data)
+//            availableCities = data
+//        }
+//    );
+//};
+
+//GetCities();
+
+//AutocompleteCity();
+
+//$(function () {
+//    $("#origin").autocomplete({
+//        source: availableCities
+//    });
+//});

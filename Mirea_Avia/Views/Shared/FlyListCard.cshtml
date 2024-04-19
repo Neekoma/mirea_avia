@@ -1,0 +1,23 @@
+﻿@*
+    View for display the search results
+*@
+
+@model Ticket
+
+@{
+
+}
+
+<div class="ticket-card">
+    <div class="ticket-header">
+        <h2>Полет из @Model.cityOfDepartue to @Model.cityOfArrival</h2>
+        <p>Стоимость: @Model.price</p>
+    </div>
+    <div class="ticket-details">
+        <p>Отправление: @Model.timeOfDepartue</p>
+        <p>Авиакомпания: @Model.airline</p>
+    </div>
+    <div class="ticket-footer">
+        <button>Купить сейчас</button>
+    </div>
+</div>

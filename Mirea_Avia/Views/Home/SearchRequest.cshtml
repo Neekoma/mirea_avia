@@ -1,0 +1,15 @@
+﻿@model SearchData
+
+@{
+    ViewData["Title"] = "Результат поиска";
+}
+
+<div class="text-center">
+    @{
+        foreach (var ticket in Model.data)
+        {
+            @await Html.PartialAsync("FlyListCard", ticket);
+            <hr />
+        }
+    }
+</div>
