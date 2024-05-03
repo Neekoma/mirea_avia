@@ -1,5 +1,8 @@
 ﻿namespace Mirea_Avia.Models.Users
 {
+    /**
+     * <summary>Класс модели данных окна регистрации ного пользователя</summary>
+     */
     public class UserRegistrationFormModel
     {
         public string? Username { get; set; }

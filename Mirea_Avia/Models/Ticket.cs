@@ -3,6 +3,9 @@
 
 namespace Mirea_Avia.Models
 {
+    /**
+     * <summary>Класс модели данных билета</summary>
+     */
     public class Ticket
     {
         [JsonProperty(PropertyName = "origin")]

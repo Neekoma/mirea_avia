@@ -39,27 +39,27 @@ GetCities();
 //    var baseUrl = "https://autocomplete.travelpayouts.com/places2";
 //    var query = `?locale=ru&types[]=city&term=`;
 
-//    availableCities = ""
+//     availableCities = ""
 
-//    fetch(baseUrl + query)
-//        .then(function (response) {
-//            if (response.ok) {
-//                return response.json();
-//            }
-//        })
-//        .then(function (data) {
-//            console.log(data)
-//            availableCities = data
-//        }
-//    );
-//};
+//     fetch(baseUrl + query)
+//         .then(function (response) {
+//             if (response.ok) {
+//                 return response.json();
+//             }
+//         })
+//         .then(function (data) {
+//             console.log(data)
+//             availableCities = data
+//         }
+//     );
+// }
 
-//GetCities();
+GetCities();
 
-//AutocompleteCity();
+AutocompleteCity();
 
-//$(function () {
-//    $("#origin").autocomplete({
-//        source: availableCities
-//    });
-//});
+$(function () {
+    $("#origin").autocomplete({
+        source: availableCities
+    });
+});

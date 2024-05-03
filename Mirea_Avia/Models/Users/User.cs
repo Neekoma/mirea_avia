@@ -1,5 +1,8 @@
 ﻿namespace Mirea_Avia.Models.Users
 {
+    /**
+     * <summary>Класс модели данных пользователя</summary>
+     */
     public class User
     {
         public int Id { get; set; }
