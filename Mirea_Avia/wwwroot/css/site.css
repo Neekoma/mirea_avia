@@ -1,20 +1,41 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #0C73FE;
+    color: white;
+}
+
+.search-field input {
+    border: 1px;
+    border-color: darkorange;
+    font-size: large;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    box-shadow: inherit 0 0 5px 5px #888;
+}
+
+.form-submit-button {
+    background-color: #FA742D;
+    color: white;
+    border-radius: 12px;
+    font-size: 80%;
+    font-weight: bold;
+    width: 100%;
 }
 
 .ticket-card {
@@ -22,7 +43,8 @@ body {
     border-radius: 5px;
     margin-bottom: 20px;
     padding: 20px;
-    background-color: #f9f9f9;
+    color: white;
+    background-color: #0DC2FF;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -33,13 +55,11 @@ body {
 .ticket-header h2 {
     margin: 0;
     font-size: 20px;
-    color: #333;
 }
 
-.ticket-header p {
+ticket-header p {
     margin: 0;
     font-size: 16px;
-    color: #666;
 }
 
 .ticket-details p {
@@ -49,7 +69,7 @@ body {
 
 .ticket-footer button {
     padding: 10px 20px;
-    background-color: #007bff;
+    background-color: #FA742D;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -57,6 +77,6 @@ body {
     font-size: 16px;
 }
 
-.ticket-footer button:hover {
-    background-color: #0056b3;
-}
+    .ticket-footer button:hover {
+        background-color: #EB7231;
+    }

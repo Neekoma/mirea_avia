@@ -1,65 +1,64 @@
-﻿
-var availableCities = []
+﻿$(document).ready(function () {
 
-function GetCities() {
     var url = "http://localhost:3000/cities";
 
     fetch(url, {
         method: "GET",
-    }).then((response) => {
-        console.log(response.ok);
-        return response.text(); // прочитать тело ответа как текст
     })
+        .then((response) => {
+            console.log(response.ok);
+            return response.text(); // прочитать тело ответа как текст
+        })
         .then((text) => {
             const data = JSON.parse(text); // преобразовать текст в JSON
-            availableCities = availableCities.concat(data);
-            console.log(availableCities);
+
+            var cities = []
+
+            data.forEach(function (city) {
+
+                cities.push({
+                    name: city.name,
+                    code: city.code
+                });
+            });
+            return cities;
         })
-}
+        .then((cities) => {
 
-GetCities();
+            names = cities.map(city => city.name);
+            codes = cities.map(city => city.code);
 
+            console.log(names);
 
-// function GetCities() {
-//     var url = "http://api.travelpayouts.com/data/ru/cities.json";
+            $("#origin").autocomplete({
+                source: async function (request, response) {
 
-//     fetch(url, {
-//         mode: "no-cors",
-//         method: "GET",
-//     }).then((response) => {
-//         console.log(response.ok);
-//         console.log(response.json());
-//     });
-// }
+                    var term = request.term.toLowerCase();
 
-// GetCities();
+                    var matchingItems = await names.filter((name) => {
+                        if (name != null) {
+                            return (name.toLowerCase().indexOf(term) !== -1)
+                        }
+                    });
 
+                    response(matchingItems);
+                }
+            });
 
-//function AutocompleteCity() {
-//    var baseUrl = "https://autocomplete.travelpayouts.com/places2";
-//    var query = `?locale=ru&types[]=city&term=`;
+            $("#destination").autocomplete({
+                source: async function (request, response) {
 
-//     availableCities = ""
+                    var term = request.term.toLowerCase();
 
-//     fetch(baseUrl + query)
-//         .then(function (response) {
-//             if (response.ok) {
-//                 return response.json();
-//             }
-//         })
-//         .then(function (data) {
-//             console.log(data)
-//             availableCities = data
-//         }
-//     );
-// }
+                    var matchingItems = await names.filter((name) => {
+                        if (name != null) {
+                            return (name.toLowerCase().indexOf(term) !== -1)
+                        }
+                    });
 
-GetCities();
+                    response(matchingItems);
+                }
+            });
+        });
 
-AutocompleteCity();
-
-$(function () {
-    $("#origin").autocomplete({
-        source: availableCities
-    });
 });

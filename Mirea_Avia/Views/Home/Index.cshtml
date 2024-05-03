@@ -5,11 +5,12 @@
 <div class="text-center">
     <div class="search-field">
         <form method="post" asp-action="SearchTickets">
-            <header>Найдётся всё!</header>
-            <input type="text" placeholder="Откуда летим?" maxlength="30" name="origin" id="origin" />
-            <input type="text" placeholder="Куда летим?" maxlength="30" name="destination" />
-            <input type="datetime" placeholder="Дата отправления" name="departureTime" />
-            <input type="submit" value="Искать" />
+            <header><h1>Найдётся всё! (почти)</h1></header>
+            <input type="text" placeholder="Город отправления" maxlength="30" name="origin" id="origin" />
+            <input type="text" placeholder="Город прибытия" maxlength="30" name="destination" id="destination"/>
+            <!--<input type="datetime" placeholder="Дата отправления" name="departureTime" /> -->
+
+            <input class="form-submit-button" type="submit" value="Искать" />
         </form>
 
     </div>

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Mirea_Avia.Database;
 using Mirea_Avia.Models;
+using Mirea_Avia.Models.Search;
 using Newtonsoft.Json;
 using System.Diagnostics;
 
@@ -13,6 +15,10 @@ namespace Mirea_Avia.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
+        public static Country[] countries;
+        public static City[] cities;
+
+
         /**
          * <summary>Токен авторизации для доступа к API</summary>
          */
@@ -25,9 +31,15 @@ namespace Mirea_Avia.Controllers
         public static readonly string BASE_URL = "https://api.travelpayouts.com/aviasales/v3/prices_for_dates";
 
 
-        public HomeController(ILogger<HomeController> logger)   
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
+
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                countries = db.Countries.Select(x => x).ToArray();
+                cities = db.Cities.Select(x => x).ToArray();
+            }
         }
 
         /**
@@ -47,15 +59,19 @@ namespace Mirea_Avia.Controllers
          * <returns>Представление страницы с найденными авиабилетами</returns>
          */
         [HttpPost]
-        public async Task<IActionResult> SearchTickets(string origin, string destination, string departureTime) {
-           
+        public async Task<IActionResult> SearchTickets(string origin, string destination, string departureTime)
+        {
+
             HttpClient httpClient = new HttpClient();
+
+            origin = cities.FirstOrDefault(x => x.city_name == origin).city_code;
+            destination = cities.FirstOrDefault(x => x.city_name == destination).city_code;
 
             var requestQuery = BASE_URL + $"?origin={origin}&destination={destination}&sorting=price&cy=rub&page=1&token={TOKEN}";
 
             HttpResponseMessage? requestResult = await httpClient.GetAsync(requestQuery);
 
-            return View("SearchRequest", JsonConvert.DeserializeObject<SearchData>(await requestResult.Content.ReadAsStringAsync()));
+            return View("SearchRequest", JsonConvert.DeserializeObject<SearchResultModel>(await requestResult.Content.ReadAsStringAsync()));
         }
 
         /**

@@ -1,20 +1,20 @@
-﻿@*
+﻿@using Mirea_Avia.Controllers;
+@*
     View for display the search results
 *@
 
 @model Ticket
 
 @{
-
 }
 
 <div class="ticket-card">
     <div class="ticket-header">
-        <h2>Полет из @Model.cityOfDepartue to @Model.cityOfArrival</h2>
-        <p>Стоимость: @Model.price</p>
+        <h2>Полет из @HomeController.cities.FirstOrDefault(x => x.city_code == Model.cityOfDepartue).city_name в @HomeController.cities.FirstOrDefault(x => x.city_code == Model.cityOfArrival).city_name</h2>
+        <p>Стоимость: @Model.price ₽</p>
     </div>
     <div class="ticket-details">
-        <p>Отправление: @Model.timeOfDepartue</p>
+        <p>Отправление: @DateTimeOffset.Parse(Model.timeOfDepartue).ToString("dd.MM.yyyy HH:mm")</p>
         <p>Авиакомпания: @Model.airline</p>
     </div>
     <div class="ticket-footer">

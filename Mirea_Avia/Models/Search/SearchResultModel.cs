@@ -3,9 +3,9 @@
     /**
  * <summary>Класс модели данных ответа от API (билеты)</summary>
  */
-    public sealed class SearchData
+    public sealed class SearchResultModel
     {
-        // \
+        //
         public List<Ticket> data;
     }
 }
