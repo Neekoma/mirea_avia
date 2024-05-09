@@ -83,6 +83,16 @@ namespace Mirea_Avia.Controllers
             return View();
         }
 
+        //public IActionResult SignUp()
+        //{
+        //    return RedirectToAction("SignUp", "Account");
+        //}
+
+        //public IActionResult SignIn()
+        //{
+        //    return RedirectToAction("SignIn", "Account");
+        //}
+
         /**
          * <summary>Запрос страницы отчета об ошибке (для разработчиков)</summary>
          * <returns>Представление страницы с отчетом об ошибке</returns>

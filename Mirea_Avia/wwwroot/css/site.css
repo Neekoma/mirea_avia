@@ -15,8 +15,7 @@ html {
 
 body {
     margin-bottom: 60px;
-    background-color: #0C73FE;
-    color: white;
+    color: black;
 }
 
 .search-field input {
@@ -24,6 +23,7 @@ body {
     border-color: darkorange;
     font-size: large;
     padding: 15px;
+    border: solid;
     border-radius: 8px;
     margin-bottom: 5px;
     box-shadow: inherit 0 0 5px 5px #888;
