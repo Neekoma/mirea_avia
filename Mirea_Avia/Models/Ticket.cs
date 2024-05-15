@@ -17,6 +17,11 @@ namespace Mirea_Avia.Models
         [JsonProperty(PropertyName = "departure_at")]
         public string timeOfDepartue { get; set; }
 
+        [JsonProperty(PropertyName = "duration")]
+        public string duration { get; set; }
+
+        public string arrivalAt { get; set; } // Datetime by timeOfDeparture + duration
+
         [JsonProperty(PropertyName = "airline")]
         public string airline { get; set; }
 

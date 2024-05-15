@@ -20,12 +20,26 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1 align-content-lg-end">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SignUp">Регистрация</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SingIn">Войти</a>
-                        </li>
+                        @{
+                            if (User.Identity.Name == null)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SignUp">Регистрация</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SignIn">Войти</a>
+                                </li>
+                            }
+                            else
+                            {
+                                 <li class="nav-item">
+                                  <span>Привет, <a class="nav-link text-dark" asp-area="" asp-controller="Account">@User.Identity.Name</a></span>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SignOut">Выйти</a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 ﻿@model Mirea_Avia.Models.Users.User
+@Html.ValidationSummary(true)
 
 @{
     ViewData["Title"] = "Регистрация";
@@ -6,29 +7,31 @@
 
 <h1>Регистрация нового пользователя </h1>
 
+
 <hr />
 <div class="row">
     <div class="col-md-4">
+       
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label class="control-label">Имя пользователя (будет отображаться на сайте)</label>
-                <input asp-for="Username" class="form-control" />
+                <input asp-for=@Model.Username class="form-control" />
                 <span asp-validation-for="Username" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Логин</label>
-                <input asp-for="Login" class="form-control" />
+                <input asp-for=@Model.Login class="form-control" />
                 <span asp-validation-for="Login" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label class="control-label">Пароль</label>
-                <input asp-for="Password" class="form-control" type="password"/>
+                <input asp-for=@Model.Password class="form-control" type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" type="email"/>
+                <input asp-for=@Model.Email class="form-control" type="email" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -37,11 +40,3 @@
         </form>
     </div>
 </div>
-
-@*<div>
-    <a asp-page="Index">Назад</a>
-</div>*@
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}

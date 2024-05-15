@@ -6,10 +6,19 @@
 
 <div class="text-center">
     @{
-        foreach (var ticket in Model.data)
+        if (Model.data != null)
         {
-            @await Html.PartialAsync("FlyListCard", ticket);
-            <hr />
+
+            foreach (var ticket in Model.data)
+            {
+                @await Html.PartialAsync("FlyListCard", ticket)
+                ;
+                <hr />
+            }
+        }
+        else
+        {
+            <h2>Извините, вылетов по заданным параметрам не найдено.</h2>    
         }
     }
 </div>

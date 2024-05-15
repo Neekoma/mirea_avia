@@ -19,9 +19,9 @@ namespace Mirea_Avia.Controllers
         public static City[] cities;
 
 
-        /**
-         * <summary>Токен авторизации для доступа к API</summary>
-         */
+        ///
+        /// <summary>Токен авторизации для доступа к API</summary>
+        ///
         public static readonly string TOKEN = "d776e6b299669e2e28eeac8d826333c0";
 
         /**
@@ -29,7 +29,6 @@ namespace Mirea_Avia.Controllers
          */
 
         public static readonly string BASE_URL = "https://api.travelpayouts.com/aviasales/v3/prices_for_dates";
-
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -59,19 +58,41 @@ namespace Mirea_Avia.Controllers
          * <returns>Представление страницы с найденными авиабилетами</returns>
          */
         [HttpPost]
-        public async Task<IActionResult> SearchTickets(string origin, string destination, string departureTime)
+        public async Task<IActionResult> SearchTickets(string origin, string destination, DateTime? departureTime)
         {
+            // departure_at=2024-05-17
 
             HttpClient httpClient = new HttpClient();
 
             origin = cities.FirstOrDefault(x => x.city_name == origin).city_code;
             destination = cities.FirstOrDefault(x => x.city_name == destination).city_code;
 
-            var requestQuery = BASE_URL + $"?origin={origin}&destination={destination}&sorting=price&cy=rub&page=1&token={TOKEN}";
+            string requestQuery = string.Empty;
+
+            if (departureTime == null)
+            {
+                requestQuery = BASE_URL + $"?origin={origin}&destination={destination}&sorting=price&cy=rub&page=1&token={TOKEN}";
+            }
+            else
+            {
+                requestQuery = BASE_URL + $"?origin={origin}&destination={destination}&sorting=price&cy=rub&page=1&token={TOKEN}&departure_at={departureTime?.Year}-{(departureTime?.Month < 10 ? ("0" + departureTime?.Month) : departureTime?.Month)}-{(departureTime?.Day < 10 ? ("0" + departureTime?.Day) : departureTime?.Day)}";
+            }
 
             HttpResponseMessage? requestResult = await httpClient.GetAsync(requestQuery);
 
-            return View("SearchRequest", JsonConvert.DeserializeObject<SearchResultModel>(await requestResult.Content.ReadAsStringAsync()));
+            SearchResultModel model = JsonConvert.DeserializeObject<SearchResultModel>(await requestResult.Content.ReadAsStringAsync());
+
+            foreach (var fly in model.data)
+            {
+                var duration = float.Parse(fly.duration) / 60;
+                var departure = DateTime.Parse(fly.timeOfDepartue);
+                var fly_hours = (int)(duration);
+                var fly_minutes = Math.Round(60 * (duration % 1));
+                fly.arrivalAt = departure.AddHours(fly_hours).AddMinutes(fly_minutes).ToString("dd.MM.yyyy HH:mm");
+                fly.duration = $"{fly_hours} часов {fly_minutes} минут";
+            }
+
+            return View("SearchRequest", model);
         }
 
         /**
@@ -82,16 +103,6 @@ namespace Mirea_Avia.Controllers
         {
             return View();
         }
-
-        //public IActionResult SignUp()
-        //{
-        //    return RedirectToAction("SignUp", "Account");
-        //}
-
-        //public IActionResult SignIn()
-        //{
-        //    return RedirectToAction("SignIn", "Account");
-        //}
 
         /**
          * <summary>Запрос страницы отчета об ошибке (для разработчиков)</summary>
