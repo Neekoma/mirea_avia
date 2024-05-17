@@ -8,7 +8,8 @@
             <header><h1>Найдётся всё! (почти)</h1></header>
             <input type="text" placeholder="Город отправления" maxlength="30" name="origin" id="origin" />
             <input type="text" placeholder="Город прибытия" maxlength="30" name="destination" id="destination"/>
-            <input type="date" placeholder="дата отправления" name="departureTime" />
+            <input type="number" placeholder="Количесво пересадок" name="transfers" min="0", max="5" />
+            <input type="date" placeholder="Дата отправления" name="departureTime" />
             <input class="form-submit-button" type="submit" value="Искать" />
         </form>
 

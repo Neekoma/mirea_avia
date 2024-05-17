@@ -8,17 +8,23 @@
     @{
         if (Model.data != null)
         {
-
-            foreach (var ticket in Model.data)
+            if (Model.data.Count == 0)
             {
-                @await Html.PartialAsync("FlyListCard", ticket)
-                ;
-                <hr />
+                <h2>Извините, вылетов по заданным параметрам не найдено.</h2>
+            }
+            else
+            {
+                foreach (var ticket in Model.data)
+                {
+                    @await Html.PartialAsync("FlyListCard", ticket)
+                    ;
+                    <hr />
+                }
             }
         }
         else
         {
-            <h2>Извините, вылетов по заданным параметрам не найдено.</h2>    
+            <h2>Извините, вылетов по заданным параметрам не найдено.</h2>
         }
     }
 </div>

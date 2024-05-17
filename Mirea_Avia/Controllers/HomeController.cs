@@ -58,7 +58,7 @@ namespace Mirea_Avia.Controllers
          * <returns>Представление страницы с найденными авиабилетами</returns>
          */
         [HttpPost]
-        public async Task<IActionResult> SearchTickets(string origin, string destination, DateTime? departureTime)
+        public async Task<IActionResult> SearchTickets(string origin, string destination, int? transfers, DateTime? departureTime)
         {
             // departure_at=2024-05-17
 
@@ -78,9 +78,15 @@ namespace Mirea_Avia.Controllers
                 requestQuery = BASE_URL + $"?origin={origin}&destination={destination}&sorting=price&cy=rub&page=1&token={TOKEN}&departure_at={departureTime?.Year}-{(departureTime?.Month < 10 ? ("0" + departureTime?.Month) : departureTime?.Month)}-{(departureTime?.Day < 10 ? ("0" + departureTime?.Day) : departureTime?.Day)}";
             }
 
+
             HttpResponseMessage? requestResult = await httpClient.GetAsync(requestQuery);
 
             SearchResultModel model = JsonConvert.DeserializeObject<SearchResultModel>(await requestResult.Content.ReadAsStringAsync());
+
+            if (transfers != null) {
+                transfers = transfers < 0 ? 0 : transfers;
+                model.data = model.data.Where(x => x.transfers == transfers).ToList();
+            }
 
             foreach (var fly in model.data)
             {
@@ -89,7 +95,9 @@ namespace Mirea_Avia.Controllers
                 var fly_hours = (int)(duration);
                 var fly_minutes = Math.Round(60 * (duration % 1));
                 fly.arrivalAt = departure.AddHours(fly_hours).AddMinutes(fly_minutes).ToString("dd.MM.yyyy HH:mm");
-                fly.duration = $"{fly_hours} часов {fly_minutes} минут";
+                fly.duration = $"{fly_hours} ч. {fly_minutes} м.";
+
+                fly.airline = $"https://pics.avs.io/200/200/{fly.airline}.png";
             }
 
             return View("SearchRequest", model);

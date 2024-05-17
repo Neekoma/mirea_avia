@@ -17,7 +17,17 @@
         <p>Отправление: @DateTimeOffset.Parse(Model.timeOfDepartue).ToString("dd.MM.yyyy HH:mm")</p>
         <p>Прибытие: @Model.arrivalAt</p>
         <p>Длительность: @Model.duration</p>
-        <p>Авиакомпания: @Model.airline</p>
+        <p>@{
+                if (Model.transfers == 0)
+                {
+                    <span>Без пересадок</span>
+                }
+                else
+                {
+                    <span>Количество пересадок: @Model.transfers</span>
+                }
+            }</p>
+        <p><img src=@Model.airline /></p>
     </div>
     <div class="ticket-footer">
         <button>Купить сейчас</button>
