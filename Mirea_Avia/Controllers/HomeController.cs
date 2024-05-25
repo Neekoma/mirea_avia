@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Mirea_Avia.Database;
 using Mirea_Avia.Models;
 using Mirea_Avia.Models.Search;
 using Newtonsoft.Json;
 using System.Diagnostics;
-
+using Microsoft.AspNetCore.Identity;
+using Mirea_Avia.Models.Users;
 
 namespace Mirea_Avia.Controllers
 {
@@ -83,7 +86,8 @@ namespace Mirea_Avia.Controllers
 
             SearchResultModel model = JsonConvert.DeserializeObject<SearchResultModel>(await requestResult.Content.ReadAsStringAsync());
 
-            if (transfers != null) {
+            if (transfers != null)
+            {
                 transfers = transfers < 0 ? 0 : transfers;
                 model.data = model.data.Where(x => x.transfers == transfers).ToList();
             }
@@ -102,6 +106,32 @@ namespace Mirea_Avia.Controllers
 
             return View("SearchRequest", model);
         }
+        /// <input hidden type="text" value=@Model.cityOfDepartue name="city_from" />
+        ///   <input hidden type="text" value=@Model.cityOfArrival name = "city_to" />
+        // < input hidden type = "number" value=@Model.price name = "price" />
+        // < input hidden type = "datetime" value=@Model.timeOfDepartue name = "date_from" />
+        [HttpPost]
+        public async Task<IActionResult> BuyTicket(string city_from, string city_to, double price, DateTime date_from)
+        {
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    var user = await db.Users.FirstOrDefaultAsync(x => x.Username == User.Identity.Name);
+                    var cityDeparture = await db.Cities.FirstOrDefaultAsync(x => x.city_code == city_from);
+                    var cityArrival = await db.Cities.FirstOrDefaultAsync(x => x.city_code == city_to);
+                    await db.PurchasedTickets.AddAsync(new PurchasedTicket { FK_Ticket_User = user, FK_Ticket_City_From = cityDeparture, FK_Ticket_City_To = cityArrival, date_from = date_from, price = price });
+                    await db.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Index");
+        }
+
 
         /**
          * <summary>Запрос страницы политики конфиденциальности</summary>

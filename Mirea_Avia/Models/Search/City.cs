@@ -11,7 +11,9 @@ namespace Mirea_Avia.Models.Search
 
         [ForeignKey("country")]
         public Country FK_Country_City { get; set; }
+
         public string city_name { get; set; }
+
         public string city_code { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Mirea_Avia.Database;
 using Mirea_Avia.Models.Users;
 using Mirea_Avia.Utils;
@@ -53,33 +54,28 @@ namespace Mirea_Avia.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> SignUp(User model)
         {
-            if (ModelState.IsValid)
+            using (ApplicationContext db = new ApplicationContext())
             {
-                using (ApplicationContext db = new ApplicationContext())
+                if (db.Users.FirstOrDefault(x => x.Login == model.Login || x.Email == model.Email) != null)
                 {
-                    if (db.Users.FirstOrDefault(x => x.Login == model.Login || x.Email == model.Email) != null)
-                    {
-                        ModelState.AddModelError("UserCreationError", "Пользователь с таким логином или Email уже зарегестрирован");
-                        return View(model);
-                    }
-
-                    byte[] passwordBytes = Encoding.UTF8.GetBytes(model.Password);
-                    byte[] passwordHash = SHA256.HashData(passwordBytes);
-                    model.Password = Convert.ToHexString(passwordHash);
-
-                    db.Users.Add(model);
-
-                    await db.SaveChangesAsync();
+                    ModelState.AddModelError("UserCreationError", "Пользователь с таким логином или Email уже зарегестрирован");
+                    return View(model);
                 }
 
-                AuthManager.Auth(model, out ClaimsIdentity claimsIdentity, out AuthenticationProperties authProperties);
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(model.Password);
+                byte[] passwordHash = SHA256.HashData(passwordBytes);
+                model.Password = Convert.ToHexString(passwordHash);
 
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+                db.Users.Add(model);
 
-                return RedirectToAction("Index", "Home");
+                await db.SaveChangesAsync();
             }
 
-            return View(model);
+            AuthManager.Auth(model, out ClaimsIdentity claimsIdentity, out AuthenticationProperties authProperties);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+            return RedirectToAction("Index", "Home");
         }
 
         /// <summary>
@@ -108,7 +104,7 @@ namespace Mirea_Avia.Controllers
                     }
 
                     if (user.Password != hexPassword)
-                        user = null;          
+                        user = null;
 
                     AuthManager.Auth(user, out ClaimsIdentity claimsIdentity, out AuthenticationProperties authProperties);
 
@@ -120,5 +116,35 @@ namespace Mirea_Avia.Controllers
 
             return View(model);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Tickets()
+        {
+
+            List<PurchasedTicket> tickets = null;
+
+            try
+            {
+                using (ApplicationContext db = new ApplicationContext())
+                {
+                    var user = await db.Users.FirstOrDefaultAsync(x => x.Username == User.Identity.Name);
+                    tickets = await db.PurchasedTickets.Where(x => x.FK_Ticket_User.Id == user.Id).ToListAsync();
+
+                    foreach (var ticket in tickets)
+                    {
+                        ticket.FK_Ticket_City_From = await db.Cities.FirstOrDefaultAsync(x => x.city_id == ticket.city_from);
+                        ticket.FK_Ticket_City_To = await db.Cities.FirstOrDefaultAsync(x => x.city_id == ticket.city_to);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(tickets);
+        }
+
     }
 }

@@ -44,9 +44,26 @@ body {
     margin-bottom: 20px;
     padding: 20px;
     color: white;
-    background-color: #0DC2FF;
+    background: linear-gradient( rgba(255, 255, 255, 0.8), rgba(0, 0, 0, 0.5) ), url('/images/sky.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: top;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.buy-btn:disabled {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+}
+
+.buy-btn:disabled:hover {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+}
+
 
 .ticket-header {
     margin-bottom: 10px;

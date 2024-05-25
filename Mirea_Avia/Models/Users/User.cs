@@ -21,5 +21,7 @@ namespace Mirea_Avia.Models.Users
 
         [Required]
         public string? Email { get; set; }
+
+        public List<PurchasedTicket> PurchasedTickets { get; set; }
     }
 }

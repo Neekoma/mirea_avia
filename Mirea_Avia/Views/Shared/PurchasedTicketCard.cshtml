@@ -1,0 +1,20 @@
+﻿@using Mirea_Avia.Controllers;
+@using Mirea_Avia.Models.Users;
+@*
+    View for display the search results
+*@
+
+@model PurchasedTicket
+
+@{
+}
+
+<div class="ticket-card">
+    <div class="ticket-header">
+        Полет из @Model.FK_Ticket_City_From.city_name в @Model.FK_Ticket_City_To.city_name</h2>
+        <p>Стоимость: @Model.price ₽</p>
+    </div>
+    <div class="ticket-details">
+        <p>Отправление: @Model.date_from.ToString("dd.MM.yyyy")</p>
+    </div>
+</div>

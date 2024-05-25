@@ -17,7 +17,8 @@
         <p>Отправление: @DateTimeOffset.Parse(Model.timeOfDepartue).ToString("dd.MM.yyyy HH:mm")</p>
         <p>Прибытие: @Model.arrivalAt</p>
         <p>Длительность: @Model.duration</p>
-        <p>@{
+        <p>
+            @{
                 if (Model.transfers == 0)
                 {
                     <span>Без пересадок</span>
@@ -26,10 +27,27 @@
                 {
                     <span>Количество пересадок: @Model.transfers</span>
                 }
-            }</p>
+            }
+        </p>
         <p><img src=@Model.airline /></p>
     </div>
     <div class="ticket-footer">
-        <button>Купить сейчас</button>
+        <form asp-action="BuyTicket" asp-controller="Home">
+            <input hidden type="text" value=@Model.cityOfDepartue name="city_from" />
+            <input hidden type="text" value=@Model.cityOfArrival name="city_to" />
+            <input hidden type="number" value=@Model.price name="price" />
+            <input hidden type="datetime" value=@Model.timeOfDepartue name="date_from" />
+            @{
+                if (User.Identity.IsAuthenticated == false)
+                {
+                    <button class="buy-btn" type="submit" disabled>Купить сейчас</button>
+                }
+                else
+                {
+                    <button type="submit" class="buy-btn">Купить сейчас</button>
+                }
+            }
+
+        </form>
     </div>
 </div>

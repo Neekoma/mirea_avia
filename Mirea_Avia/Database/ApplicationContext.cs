@@ -17,9 +17,13 @@ namespace Mirea_Avia.Database
         /** <summary>Таблица БД со странами</summary> */
         public DbSet<Country> Countries { get; set; }
 
+        public DbSet<PurchasedTicket> PurchasedTickets { get; set; }
+
 
         /** <summary>Конструктор. Проверка на работы подключения к БД</summary>*/
         public ApplicationContext() => Database.EnsureCreated();
+
+      
 
         /** <summary>Конфигурация подключения с БД</summary>*/
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
